@@ -1,30 +1,51 @@
 # Project: tarea2ds
 # Makefile created by Dev-C++ 4.9.9.2
 
-CPP  = g++.exe
-CC   = gcc.exe
+CPP  = g++.exe -D__DEBUG__
+CC   = gcc.exe -D__DEBUG__
 WINDRES = windres.exe
 RES  = 
-OBJ  = src/main.o $(RES)
-LINKOBJ  = src/main.o $(RES)
-LIBS =  -L"C:/Dev-Cpp/lib"  
+OBJ  = bin/src/main.o bin/src/abb.o bin/src/redblacktree.o bin/src/avlabb.o bin/src/tNode.o bin/src/node.o bin/src/utilities.o bin/src/treap.o $(RES)
+LINKOBJ  = bin/src/main.o bin/src/abb.o bin/src/redblacktree.o bin/src/avlabb.o bin/src/tNode.o bin/src/node.o bin/src/utilities.o bin/src/treap.o $(RES)
+LIBS =  -L"C:/Dev-Cpp/lib"  -g3 
 INCS =  -I"C:/Dev-Cpp/include" 
 CXXINCS =  -I"C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"C:/Dev-Cpp/include/c++/3.4.2/backward"  -I"C:/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"C:/Dev-Cpp/include/c++/3.4.2"  -I"C:/Dev-Cpp/include" 
-BIN  = tarea2ds.exe
-CXXFLAGS = $(CXXINCS)  
-CFLAGS = $(INCS)  
+BIN  = bin/tarea2ds.exe
+CXXFLAGS = $(CXXINCS)   -fexceptions -g3
+CFLAGS = $(INCS)   -fexceptions -g3
 RM = rm -f
 
 .PHONY: all all-before all-after clean clean-custom
 
-all: all-before tarea2ds.exe all-after
+all: all-before bin/tarea2ds.exe all-after
 
 
 clean: clean-custom
 	${RM} $(OBJ) $(BIN)
 
 $(BIN): $(OBJ)
-	$(CPP) $(LINKOBJ) -o "tarea2ds.exe" $(LIBS)
+	$(CPP) $(LINKOBJ) -o "bin\tarea2ds.exe" $(LIBS)
 
-src/main.o: src/main.cpp
-	$(CPP) -c src/main.cpp -o src/main.o $(CXXFLAGS)
+bin/src/main.o: src/main.cpp
+	$(CPP) -c src/main.cpp -o bin/src/main.o $(CXXFLAGS)
+
+bin/src/abb.o: src/abb.cpp
+	$(CPP) -c src/abb.cpp -o bin/src/abb.o $(CXXFLAGS)
+
+bin/src/redblacktree.o: src/redblacktree.cpp
+	$(CPP) -c src/redblacktree.cpp -o bin/src/redblacktree.o $(CXXFLAGS)
+
+bin/src/avlabb.o: src/avlabb.cpp
+	$(CPP) -c src/avlabb.cpp -o bin/src/avlabb.o $(CXXFLAGS)
+
+bin/src/tNode.o: src/tNode.cpp
+	$(CPP) -c src/tNode.cpp -o bin/src/tNode.o $(CXXFLAGS)
+
+bin/src/node.o: src/node.cpp
+	$(CPP) -c src/node.cpp -o bin/src/node.o $(CXXFLAGS)
+
+bin/src/utilities.o: src/utilities.cpp
+	$(CPP) -c src/utilities.cpp -o bin/src/utilities.o $(CXXFLAGS)
+
+bin/src/treap.o: src/treap.cpp
+	$(CPP) -c src/treap.cpp -o bin/src/treap.o $(CXXFLAGS)
