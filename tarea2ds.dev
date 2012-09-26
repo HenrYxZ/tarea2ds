@@ -1,7 +1,7 @@
 [Project]
 FileName=tarea2ds.dev
 Name=tarea2ds
-UnitCount=11
+UnitCount=15
 Type=1
 Ver=1
 ObjFiles=
@@ -16,7 +16,7 @@ Linker=
 IsCpp=1
 Icon=
 ExeOutput=bin
-ObjectOutput=src
+ObjectOutput=bin\src
 OverrideOutput=0
 OverrideOutputName=tarea2ds.exe
 HostApplication=
@@ -118,7 +118,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit8]
-FileName=src\tnode.h
+FileName=src\tNode.h
 CompileCpp=1
 Folder=src
 Compile=1
@@ -128,7 +128,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit9]
-FileName=src\tnode.cpp
+FileName=src\tNode.cpp
 CompileCpp=1
 Folder=src
 Compile=1
@@ -149,6 +149,46 @@ BuildCmd=
 
 [Unit10]
 FileName=src\node.h
+CompileCpp=1
+Folder=src
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit12]
+FileName=src\includes.h
+CompileCpp=1
+Folder=src
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit13]
+FileName=src\utilities.cpp
+CompileCpp=1
+Folder=src
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit14]
+FileName=src\treap.h
+CompileCpp=1
+Folder=src
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit15]
+FileName=src\treap.cpp
 CompileCpp=1
 Folder=src
 Compile=1
