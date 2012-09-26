@@ -8,8 +8,9 @@
  */
 class ABB
 {
-	ABB(){};
-	virtual ~ABB(){};
+    public:
+	ABB();
+	~ABB();
 	virtual void insert(int n) = 0;
 	virtual void remove(int n) = 0;
 	virtual bool find(int n) = 0;

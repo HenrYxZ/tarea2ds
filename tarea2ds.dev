@@ -80,7 +80,7 @@ BuildCmd=
 [Unit4]
 FileName=src\redblacktree.h
 CompileCpp=1
-Folder=
+Folder=src
 Compile=1
 Link=1
 Priority=1000
@@ -90,7 +90,7 @@ BuildCmd=
 [Unit5]
 FileName=src\redblacktree.cpp
 CompileCpp=1
-Folder=
+Folder=src
 Compile=1
 Link=1
 Priority=1000
@@ -100,7 +100,7 @@ BuildCmd=
 [Unit6]
 FileName=src\avlabb.h
 CompileCpp=1
-Folder=
+Folder=src
 Compile=1
 Link=1
 Priority=1000
@@ -110,7 +110,7 @@ BuildCmd=
 [Unit7]
 FileName=src\avlabb.cpp
 CompileCpp=1
-Folder=
+Folder=src
 Compile=1
 Link=1
 Priority=1000
@@ -120,7 +120,7 @@ BuildCmd=
 [Unit8]
 FileName=src\tnode.h
 CompileCpp=1
-Folder=
+Folder=src
 Compile=1
 Link=1
 Priority=1000
@@ -130,7 +130,7 @@ BuildCmd=
 [Unit9]
 FileName=src\tnode.cpp
 CompileCpp=1
-Folder=
+Folder=src
 Compile=1
 Link=1
 Priority=1000
@@ -140,7 +140,7 @@ BuildCmd=
 [Unit11]
 FileName=src\node.cpp
 CompileCpp=1
-Folder=
+Folder=src
 Compile=1
 Link=1
 Priority=1000
@@ -150,7 +150,7 @@ BuildCmd=
 [Unit10]
 FileName=src\node.h
 CompileCpp=1
-Folder=
+Folder=src
 Compile=1
 Link=1
 Priority=1000
