@@ -36,7 +36,7 @@ while(!aux->isDummy())
     if(comparison>=0)//me voy a la izquierda
     {
         auxFather=aux;
-        aux=aux->getLeft();
+        aux=aux->Left();
         lastLeft=true;
                
     }
@@ -44,7 +44,7 @@ while(!aux->isDummy())
     else//me voy a la derecha
     {
         auxFather=aux;
-        aux=aux->getRight();
+        aux=aux->Right();
         lastLeft=false;
     }
 }
@@ -73,14 +73,48 @@ while(!aux->isDummy())
 
 void Treap::remove(string k)
 {
-    return;
+    tNode* aux=findNode(k);
+    if(aux==0)
+    {
+        return;
+    }
+    while(!aux->isDummy()){
+    if(aux->isDummy())
+    {
+        return;
+    }
+    else if(aux->Left()->isDummy()&&aux->Right()->isDummy()){
+        aux->setDummy();
+        return;
+        //debo eiliminar ademàs los dummies con un delete (falta implementar destructor)
+    }
+    else if(aux->Left()->isDummy())
+    {
+        rotLeft(aux);
+        aux=aux->Left();
+    }
+    else if(aux->Right()->isDummy())
+    {
+        rotRight(aux);
+        aux=aux->Right();
+    }
+    else if(aux->Left()->getPriority()>aux->Right()->getPriority())
+    {
+        rotRight(aux);
+        aux=aux->Right();
+    }
+    else {
+        rotLeft(aux);
+        aux=aux->Left();
+    }
+    }
 }
-int Treap::find(string str)
+tNode* Treap::findNode(string str)
 {
 
 if (_root->isDummy())
 {
-    return _root->getValue();
+    return _root;
 }
 tNode* aux=_root;
 while(!aux->isDummy())
@@ -95,17 +129,17 @@ while(!aux->isDummy())
     
     if(comparison==0)
     {
-        return aux->getValue();
+        return aux;
     }
     else if(comparison==1)//si es 1 busco str a la izquierda
     {
         
-        aux=aux->getLeft();
+        aux=aux->Left();
     }
     
     else if(comparison==-1)//si es -1 busco str a la izquierda
     {
-        aux=aux->getRight();
+        aux=aux->Right();
     }
     
     
@@ -113,7 +147,10 @@ while(!aux->isDummy())
    
 }
 
-
+int Treap::find(string str)
+{
+    return findNode(str)->getValue();
+}
 int Treap::min()
 {
     return 0;
@@ -121,10 +158,10 @@ int Treap::min()
 tNode* Treap::rotLeft(tNode* subRoot) //rota a la izquierda y retorna nueva subraíz
 {
     tNode* p=subRoot;
-    tNode* q=p->getLeft();
-    tNode* a=p->getLeft();
-    tNode* b=q->getLeft();
-    tNode* c=q->getRight();
+    tNode* q=p->Left();
+    tNode* a=p->Left();
+    tNode* b=q->Left();
+    tNode* c=q->Right();
     
     q->setLeft(p);
     p->setRight(b);
@@ -134,10 +171,10 @@ tNode* Treap::rotLeft(tNode* subRoot) //rota a la izquierda y retorna nueva subr
 tNode* Treap::rotRight(tNode* subRoot) //rota a la izquierda y retorna nueva subraíz
 {
     tNode* q=subRoot;
-    tNode* p=q->getLeft();
-    tNode* a=p->getLeft();
-    tNode* b=p->getRight();
-    tNode* c=q->getRight();
+    tNode* p=q->Left();
+    tNode* a=p->Left();
+    tNode* b=p->Right();
+    tNode* c=q->Right();
     
     p->setRight(q);
     q->setLeft(b);

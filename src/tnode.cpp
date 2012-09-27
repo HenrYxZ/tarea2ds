@@ -61,11 +61,11 @@ string tNode::getKey()
 {
     return _key;
 }
-tNode* tNode::getLeft()
+tNode* tNode::Left()
 {
     return _left;
 }
-tNode* tNode::getRight()
+tNode* tNode::Right()
 {
     return _right;
 }
@@ -73,6 +73,8 @@ void tNode::setDummy()
 {
     _priority=101;
     _dummy=true;
+    _left=0;
+    _right=0;
     return;
 }
 bool tNode::isDummy()

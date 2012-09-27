@@ -31,8 +31,8 @@ public:
     int getPriority();
     int getValue();
 	string getKey();
-	tNode* getLeft();
-	tNode* getRight();
+	tNode* Left();
+	tNode* Right();
 
 	void setDummy();	
 	void setLeft(tNode* lNode);
