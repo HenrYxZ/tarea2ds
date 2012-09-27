@@ -16,16 +16,104 @@ Treap::~Treap()
 
 void Treap::insert(string k, int v)
 {
+
+int priority=randomP();    
+if (_root->isDummy())
+{
+    _root->unDummy(k,v,priority);
     return;
 }
+
+tNode* aux=_root;
+tNode* auxFather=0;
+bool lastLeft=true;
+while(!aux->isDummy())
+{
+    int comparison=cmp(aux->getKey(),k);
+    
+    //si es 0 son iguales -> encontramos str
+    
+    if(comparison>=0)//me voy a la izquierda
+    {
+        auxFather=aux;
+        aux=aux->getLeft();
+        lastLeft=true;
+               
+    }
+    
+    else//me voy a la derecha
+    {
+        auxFather=aux;
+        aux=aux->getRight();
+        lastLeft=false;
+    }
+}
+    aux->unDummy(k,v,priority);
+    
+        int rootPty=auxFather->getPriority();
+        int sonPty=aux->getPriority();
+        
+        if(lastLeft){ 
+            
+        if(sonPty>rootPty)
+        {
+            rotRight(auxFather);
+        }
+        }
+        else{
+        
+        if(sonPty>rootPty)
+        {
+            rotLeft(auxFather);
+        }
+        
+        }
+    return;
+}
+
 void Treap::remove(string k)
 {
     return;
 }
-int Treap::find(string k)
+int Treap::find(string str)
 {
-    return 0;
+
+if (_root->isDummy())
+{
+    return _root->getValue();
 }
+tNode* aux=_root;
+while(!aux->isDummy())
+{
+    if(aux->isDummy())
+    {
+        return 0;//clave no encontrada
+    }
+    int comparison=cmp(aux->getKey(),str);
+    
+    //si es 0 son iguales -> encontramos str
+    
+    if(comparison==0)
+    {
+        return aux->getValue();
+    }
+    else if(comparison==1)//si es 1 busco str a la izquierda
+    {
+        
+        aux=aux->getLeft();
+    }
+    
+    else if(comparison==-1)//si es -1 busco str a la izquierda
+    {
+        aux=aux->getRight();
+    }
+    
+    
+}
+   
+}
+
+
 int Treap::min()
 {
     return 0;

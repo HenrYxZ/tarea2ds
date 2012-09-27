@@ -37,6 +37,7 @@ public:
 	void setDummy();	
 	void setLeft(tNode* lNode);
 	void setRight(tNode* rNode);
+	void unDummy(string k,int v, int p);
 	
 
 };

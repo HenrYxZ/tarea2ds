@@ -6,6 +6,7 @@
 tNode::tNode(string key,int value): _key(key),_value(value),_dummy(false)
 {
     _priority=randomP();
+    
 }
 tNode::tNode(string key,int value,int priority): _key(key),_value(value),_dummy(false),_priority(priority)
 {
@@ -33,12 +34,33 @@ tNode::~tNode()
 	
 	// insert your code here
 }
+void tNode::unDummy(string k,int v, int p)
+{
+    _key=k;
+    _value=v;
+    _priority=p;
+    _dummy=false;
+    tNode* dummyLeft=new tNode();
+    tNode* dummyRight=new tNode();
 
+    _left=dummyLeft;
+    _right=dummyRight;
+    
+}
 int tNode::getPriority()
 {
     return _priority;
 }
 
+int tNode::getValue()
+{
+    return _value;
+}
+
+string tNode::getKey()
+{
+    return _key;
+}
 tNode* tNode::getLeft()
 {
     return _left;

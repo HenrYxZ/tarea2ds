@@ -4,6 +4,7 @@
 #define TREAP_H
 #include <string>
 #include "tNode.h"
+#include "includes.h"
 #include "abb.h" // inheriting class's header file
 using namespace std;
 // No description
@@ -13,6 +14,7 @@ class Treap : public ABB
         tNode* _root;
         tNode* rotLeft(tNode* subRoot);
         tNode* rotRight(tNode* subRoot);
+        
 	public:
 		// class constructor
 		Treap();
