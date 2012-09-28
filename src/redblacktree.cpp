@@ -2,14 +2,133 @@
 
 #include "redblacktree.h" // class's header file
 
-// class constructor
-RedBlackTree::RedBlackTree()
-{
-	// insert your code here
+RedBlackTree::RedBlackTree(){
+_root = NULL;
+}                             
+
+RedBlackTree::~RedBlackTree(){
+                              
+                              }
+
+int RedBlackTree::find(string k){
+    //si no encuentra devuelve -1
+    if(_root == null)
+		return -1;
+	Node* actual = _root;
+
+	while(true)
+	{	// Binary Searcher
+		if(actual == null)
+			break;
+
+        int comparison=cmp(actual->getKey(),k);
+		if(comparison = 0)
+			return actual->getValue;
+
+		else if(comparison > 0)
+			actual = actual->getLeft();
+
+		else
+			actual = actual->getRight();
+	}
+
+	return -1;      
+}     
+
+void RedBlackTree::insert(string k, int v){
+     if(_root == NULL)
+			{
+				_root = new Node(k,v);
+			}
+
+			else
+			{
+				Node* actual = _root;
+                bool continua = true;
+				while(continua)
+				{
+                    int comparison=cmp(actual->getKey(),k);
+					if(comparison >= 0)
+					{
+						// ----------------	LEFT case ------------------------------
+
+						if(actual->getLeft() == NULL)
+						{	//había espacio
+							Node* nuevo = new Node(k,v);
+							nuevo->setFather(actual);
+							actual->setLeft(nuevo);
+                            //no se si debería ser balance nuevo o actual
+							balance(nuevo);
+							continua = false;
+							break;
+						}
+						else
+							actual = actual->getLeft();
+					}
+
+					else
+					{
+						// -------------------- RIGHT case -------------------------
+
+						if(actual->getRight() == NULL)
+						{
+							Node* nuevo = new Node(k,v);
+							nuevo->changeFather(actual);
+							actual->changeRight(nuevo);
+
+							balance(nuevo);
+							continua = false;
+							break;
+						}
+
+						else
+							actual = actual->getRight();
+
+					}
+
+
+				}//end of while(continua)
+
+			}//end of else [case tree is not empty]
+
+     
 }
 
-// class destructor
-RedBlackTree::~RedBlackTree()
-{
-	// insert your code here
+void RedBlackTree::remove(string k){
+     //TO DO
+}
+
+void simpleRot(Node* n){
+     Node* father = n->getFather();    
+     Node* granpa = father->getFather();     //abuelo
+     if(father != _root)
+     Node* uncle = father->getBrother();         //tío (puede ser NULL)
+     Node* brother = n->getBrother();            //hermano (puede ser null)
+     
+     //cambiemos al padre de "padre" por el bisabuelo, a su vez si padre debe ser un hijo izquiero o derecho
+      
+     father->setFather( granpa->getFather() );      //setea a bisabuelo como padre de "padre"
+     
+     if(granpa->getFather() != NULL)
+     {
+        
+       if(granpa->getFather()->getLeft() == granpa)
+         
+            granpa->getFather()->setLeft(father);  //setea a padre como hijo izquierdo 
+       
+       else
+       
+           granpa->getFather()->setRigth(father);  //setea a padre como hijo izquierdo
+          
+     }
+     
+     if(father->getLeft() == n)         //el nuevo es un hijo izq
+     {
+                          //TODO
+     }
+              
+}// fin de simpleRot
+
+void balance(Node* n){
+     //TO DO
 }

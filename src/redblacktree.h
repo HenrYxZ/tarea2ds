@@ -4,17 +4,32 @@
 #define REDBLACKTREE_H
 
 #include "abb.h" // inheriting class's header file
-
+#include "node.h"
+#include "includes.h"
 /*
  * No description
  */
-class RedBlackTree : public ABB
+ class RedBlackTree : public ABB
 {
+        
+    private:
+        Node* _root;
+        
+        
+      
 	public:
 		// class constructor
 		RedBlackTree();
 		// class destructor
 		~RedBlackTree();
+		void insert(string k,int v);
+	    void remove(string k);
+        int find(string k); //retorna value
+        void simpleRot(Node* n);
+        void balance(Node* n);
+        
+        
+     
 };
 
 #endif // REDBLACKTREE_H

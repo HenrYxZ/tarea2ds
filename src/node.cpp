@@ -2,14 +2,4 @@
 
 #include "node.h" // class's header file
 
-// class constructor
-Node::Node()
-{
-	// insert your code here
-}
-
-// class destructor
-Node::~Node()
-{
-	// insert your code here
-}
+                  

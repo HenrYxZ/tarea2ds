@@ -8,11 +8,47 @@
  */
 class Node
 {
+    private:
+            bool _isRed;
+            Node * _father, * _left, * _right;
+            int _value;
+            string _key;  
+      
 	public:
 		// class constructor
-		Node();
+		Node(string key, int value):_key(key),_value(value),_father(NULL),_left(NULL),_right(NULL),_isRed(true);
 		// class destructor
 		~Node();
+		//geters
+		Node* getLeft(){return _left;  };
+		Node* getRight(){return _right;  };
+		Node* getFather(){return _father;  };
+		Node* getBrother(){
+              if(father->getLeft() == this)
+                 return father->getRight();
+              else
+                  return father->getLeft();
+        }
+        
+		int getValue(){return _value       };
+		string getKey(){return _key        };
+		bool isRed(){return _isRed         };
+		
+		void setValue(int v){_value = v;   };
+		void setKey(string k){_key = k;    };
+		void setLeft(Node* lnode){_left = lnode;      };
+		void setRight(Node* rnode){_rigth = rnode;    };
+		void setFather(Node* fnode){_father = fnode;  };
+		void setisRed(bool is){_isRed = is; };
+		void recolor(){
+             if(this->isRed())
+                _isRed = false;
+             else
+                _isRed = true;
+        };
+		
+		
+		
 };
 
 #endif // NODE_H
