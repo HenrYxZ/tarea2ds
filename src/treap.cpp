@@ -5,7 +5,7 @@
 // class constructor
 Treap::Treap()
 {
-	// insert your code here
+	_root=new tNode();
 }
 
 // class destructor
@@ -86,7 +86,7 @@ void Treap::remove(string k)
     else if(aux->Left()->isDummy()&&aux->Right()->isDummy()){
         aux->setDummy();
         return;
-        //debo eiliminar ademàs los dummies con un delete (falta implementar destructor)
+        //debo eliminar ademàs los dummies con un delete (falta implementar destructor)
     }
     else if(aux->Left()->isDummy())
     {
@@ -155,6 +155,59 @@ int Treap::min()
 {
     return 0;
 }
+void Treap::pretty-print ( )
+{
+    tNode* aux = _root;
+	
+	
+
+    stack<tNode*> sNodes;
+	stack<bool> sMoves;
+
+    while ( !aux->isDummy() || s.empty() )
+    {
+        while (!aux->isDummy()) {
+            sNodes.push (aux);
+            
+			aux = aux->Left();
+			sMoves.push(false);
+			
+        }
+        aux = sNodes.top();
+		sNodes.pop();
+		sMoves.pop();
+		string relleno="";
+		
+		stack<tNode*> s=sMoves;//hago una copia
+		bool last=s.top();
+		s.pop();
+		while (! s.empty() )
+		  {
+			if(last==s.top())
+			{
+			relleno=relleno<<"   ";
+			}
+			else
+			{
+			relleno=relleno<<"|  ";
+			}
+		  }
+		if(aux==_root)
+		{
+		cout<<"--"<<aux->getKey()<<endl;
+		}
+		else
+		{
+		cout<<"   "<<relleno<<"|--"<<aux->getKey()<<endl;
+		}
+        
+		
+        aux = aux->Right();
+		sMoves.push(true);
+		
+    }
+}
+
 tNode* Treap::rotLeft(tNode* subRoot) //rota a la izquierda y retorna nueva subraíz
 {
     tNode* p=subRoot;

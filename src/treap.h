@@ -25,6 +25,7 @@ class Treap : public ABB
         void remove(string k);
         int find(string k);
         int min();
+        void pretty-print();
 };
 
 #endif // TREAP_H
