@@ -12,7 +12,7 @@ tNode::tNode(string key,int value,int priority): _key(key),_value(value),_dummy(
 {
     
 }
-tNode::tNode(): _key(""),_value(0),_dummy(true),_priority(101)
+tNode::tNode(): _key(""),_value(-1),_dummy(true),_priority(101)
 {
     
 }

@@ -4,6 +4,7 @@
 #include <string>
 #include <time.h>
 #include "includes.h"
+
 using namespace std;
 
 int cmp(string str1,string str2)
@@ -18,3 +19,5 @@ int randomP()//funcion entrega valores random entre 0 y 99
     int random = rand() % 100;
     return random;
 }
+
+
