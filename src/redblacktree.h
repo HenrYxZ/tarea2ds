@@ -27,6 +27,7 @@
         int find(string k); //retorna value
         void simpleRot(Node* n);
         void balance(Node* n);
+        void doubleRot(Node* n);
         
         
      

@@ -98,9 +98,10 @@ void RedBlackTree::remove(string k){
      //TO DO
 }
 
-void simpleRot(Node* n){
+void RedBlackTree::simpleRot(Node* n){
+     
      Node* father = n->getFather();    
-     Node* granpa = father->getFather();     //abuelo
+     Node* granpa = father->getFather();     //abuelo (puede ser NULL)
      if(father != _root)
      Node* uncle = father->getBrother();         //tío (puede ser NULL)
      Node* brother = n->getBrother();            //hermano (puede ser null)
@@ -124,11 +125,88 @@ void simpleRot(Node* n){
      
      if(father->getLeft() == n)         //el nuevo es un hijo izq
      {
-                          //TODO
+        father->setRight(granpa);
+        granpa->setFather(father);
+        
+        granpa->setLeft(brother);
+        brother->setFather(granpa);
+        
      }
+     
+     else                          //el nuevo es un hijo der
+     {
+         father->setLeft(granpa);
+         granpa->setFather(father);
+         
+         granpa->setRight(brother);
+         brother->setFather(granpa);
+     
+     }
+     father = NULL;
+     brother = NULL;
+     granpa = NULL;
+     uncle = NULL; 
+      
               
 }// fin de simpleRot
 
-void balance(Node* n){
-     //TO DO
+void RedBlackTree::doubleRot(Node* n){
+     
+     Node* father = n->getFather(); 
+     
+     if(father->getLeft() == n)     //el "hijo" es un hijo izq
+     {
+        father->setLeft( n->getRight() );
+        if(n->getRight() != NULL)
+        n->getRight()->setFather( father );
+        
+        father->setFather( n );
+        n->setRight( father );
+     }
+     
+     else
+     {
+         father->setRight( n->getLeft() );
+         if( n->getLeft() != NULL )
+         n->getLeft()->setFather( father );
+         
+         father->setFather( n );
+         n->setLeft( father );
+     }
+     balance(father);
+}     
+
+
+void RedBlackTree::balance(Node* n){
+     
+     Node* father = n->getFather();    
+     Node* granpa = father->getFather();     //abuelo (también puede ser NULL)
+     if(father != _root)
+     Node* uncle = father->getBrother();         //tío (puede ser NULL)
+     
+     //hijo rojo con padre rojo con sus 3 casos
+     if( !(father->isRed() && n->isRed() ) )
+      return;
+     
+     //tio rojo
+     if( uncle->isRed() )
+     {
+        uncle->recolor();
+        granpa->recolor();
+        father->recolor();  
+     }
+     //rotación simple
+     else if( (granpa->getLeft() == father && father->getLeft() == n ) || ( granpa->getRight() == father && father->getRight() == n ) )
+     {
+          father->recolor();
+          granpa->recolor();
+          simpleRot(n);
+     }
+     
+     //rotación doble
+     else
+     {
+         doubleRot(n);
+     }
+     
 }
