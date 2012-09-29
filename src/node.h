@@ -3,6 +3,7 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include <string>
 /*
  * No description
  */
@@ -16,36 +17,26 @@ class Node
       
 	public:
 		// class constructor
-		Node(string key, int value):_key(key),_value(value),_father(NULL),_left(NULL),_right(NULL),_isRed(true);
+		Node(string key, int value);
 		// class destructor
 		~Node();
 		//geters
-		Node* getLeft(){return _left;  };
-		Node* getRight(){return _right;  };
-		Node* getFather(){return _father;  };
-		Node* getBrother(){
-              if(father->getLeft() == this)
-                 return father->getRight();
-              else
-                  return father->getLeft();
-        }
+		Node* getLeft();
+		Node* getRight();
+		Node* getFather();
+		Node* getBrother();
         
-		int getValue(){return _value       };
-		string getKey(){return _key        };
-		bool isRed(){return _isRed         };
+		int getValue();
+		string getKey();
+		bool isRed();
 		
-		void setValue(int v){_value = v;   };
-		void setKey(string k){_key = k;    };
-		void setLeft(Node* lnode){_left = lnode;      };
-		void setRight(Node* rnode){_rigth = rnode;    };
-		void setFather(Node* fnode){_father = fnode;  };
-		void setisRed(bool is){_isRed = is; };
-		void recolor(){
-             if(this->isRed())
-                _isRed = false;
-             else
-                _isRed = true;
-        };
+		void setValue(int v);
+		void setKey(string k);
+		void setLeft(Node* lnode);
+		void setRight(Node* rnode);
+		void setFather(Node* fnode);
+		void setisRed(bool is);
+		void recolor();
 		
 		
 		

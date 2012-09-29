@@ -12,18 +12,18 @@ RedBlackTree::~RedBlackTree(){
 
 int RedBlackTree::find(string k){
     //si no encuentra devuelve -1
-    if(_root == null)
+    if(_root == NULL)
 		return -1;
 	Node* actual = _root;
 
 	while(true)
 	{	// Binary Searcher
-		if(actual == null)
+		if(actual == NULL)
 			break;
 
         int comparison=cmp(actual->getKey(),k);
 		if(comparison = 0)
-			return actual->getValue;
+			return actual->getValue();
 
 		else if(comparison > 0)
 			actual = actual->getLeft();
@@ -73,8 +73,8 @@ void RedBlackTree::insert(string k, int v){
 						if(actual->getRight() == NULL)
 						{
 							Node* nuevo = new Node(k,v);
-							nuevo->changeFather(actual);
-							actual->changeRight(nuevo);
+							nuevo->setFather(actual);
+							actual->setRight(nuevo);
 
 							balance(nuevo);
 							continua = false;
@@ -102,8 +102,6 @@ void RedBlackTree::simpleRot(Node* n){
      
      Node* father = n->getFather();    
      Node* granpa = father->getFather();     //abuelo (puede ser NULL)
-     if(father != _root)
-     Node* uncle = father->getBrother();         //tío (puede ser NULL)
      Node* brother = n->getBrother();            //hermano (puede ser null)
      
      //cambiemos al padre de "padre" por el bisabuelo, a su vez si padre debe ser un hijo izquiero o derecho
@@ -119,7 +117,7 @@ void RedBlackTree::simpleRot(Node* n){
        
        else
        
-           granpa->getFather()->setRigth(father);  //setea a padre como hijo izquierdo
+           granpa->getFather()->setRight(father);  //setea a padre como hijo izquierdo
           
      }
      
@@ -145,7 +143,7 @@ void RedBlackTree::simpleRot(Node* n){
      father = NULL;
      brother = NULL;
      granpa = NULL;
-     uncle = NULL; 
+    
       
               
 }// fin de simpleRot
@@ -179,17 +177,23 @@ void RedBlackTree::doubleRot(Node* n){
 
 void RedBlackTree::balance(Node* n){
      
+     if(n == _root)
+     {
+       _root->setisRed(false);  
+       return;
+     }
+     
      Node* father = n->getFather();    
      Node* granpa = father->getFather();     //abuelo (también puede ser NULL)
-     if(father != _root)
+     
      Node* uncle = father->getBrother();         //tío (puede ser NULL)
      
-     //hijo rojo con padre rojo con sus 3 casos
+     //hijo rojo con padre rojo con sus 3 casos seguiran a continuación
      if( !(father->isRed() && n->isRed() ) )
       return;
      
      //tio rojo
-     if( uncle->isRed() )
+     if( uncle!=NULL && uncle->isRed() )
      {
         uncle->recolor();
         granpa->recolor();

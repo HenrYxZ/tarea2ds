@@ -13,3 +13,9 @@ AVLABB::~AVLABB()
 {
 	// insert your code here
 }
+
+int AVLABB::find(string k){
+}
+
+
+                    

@@ -2,4 +2,76 @@
 
 #include "node.h" // class's header file
 
-                  
+Node::Node(string key, int value){
+      _key = key;
+      _value = value;                  
+}
+
+Node::~Node(){
+              
+}
+
+Node* Node::getBrother(){
+      if(_father == NULL)
+        return NULL;
+      if(_father->getLeft() == this)
+        return _father->getRight();
+      else
+        return _father->getLeft();
+}
+
+Node* Node::getFather(){
+      return _father;
+}
+
+string Node::getKey(){
+       return _key;
+}
+
+Node* Node::getLeft(){
+      return _left;
+}
+
+Node* Node::getRight(){
+      return _right;
+}
+
+int Node::getValue(){
+    return _value;
+}
+
+bool Node::isRed(){
+     return _isRed;
+}
+
+void Node::recolor(){
+     if(this->isRed())
+       _isRed = false;
+     else
+       _isRed = true;
+
+}
+
+void Node::setFather(Node* fnode){
+     _father = fnode;
+}
+
+void Node::setisRed(bool is){
+     _isRed = is;
+}
+
+void Node::setKey(string k){
+     _key = k;
+}
+
+void Node::setLeft(Node* lnode){
+     _left=lnode;
+}
+
+void Node::setRight(Node* rnode){
+     _right = rnode;
+}
+
+void Node::setValue(int v){
+     _value = v;
+}
