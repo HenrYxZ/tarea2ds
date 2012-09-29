@@ -7,6 +7,8 @@
 /*
  * No description
  */
+using namespace std; 
+ 
 class Node
 {
     private:

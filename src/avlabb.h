@@ -17,12 +17,8 @@ class AVLABB : public ABB
 		AVLABB();
 		// class destructor
 		~AVLABB();
-		void insert(string k,int v);
-	    void remove(string k);
-        int find(string k); //retorna value
-        void simpleRot(Node* n);
-        void balance(Node* n);
-        void doubleRot(Node* n);
+		
+	    
 };
 
 #endif // AVLABB_H
