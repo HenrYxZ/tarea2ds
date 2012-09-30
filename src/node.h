@@ -14,7 +14,7 @@ class Node
     private:
             bool _isRed;
             Node * _father, * _left, * _right;
-            int _value;
+            int _value, _high;
             string _key;  
       
 	public:
@@ -31,6 +31,7 @@ class Node
 		int getValue();
 		string getKey();
 		bool isRed();
+		int getHigh();
 		
 		void setValue(int v);
 		void setKey(string k);
@@ -39,6 +40,7 @@ class Node
 		void setFather(Node* fnode);
 		void setisRed(bool is);
 		void recolor();
+		void setHigh(int h);
 		
 		
 		

@@ -4,7 +4,12 @@
 
 Node::Node(string key, int value){
       _key = key;
-      _value = value;                  
+      _value = value;
+      _father = NULL;
+      _left = NULL;
+      _right = NULL;
+      _isRed = false;
+      _high = 1;                  
 }
 
 Node::~Node(){
@@ -38,6 +43,10 @@ Node* Node::getRight(){
 
 int Node::getValue(){
     return _value;
+}
+
+int Node::getHigh(){
+    return _high;
 }
 
 bool Node::isRed(){
@@ -74,4 +83,8 @@ void Node::setRight(Node* rnode){
 
 void Node::setValue(int v){
      _value = v;
+}
+
+void Node::setHigh(int h){
+     _high = h;
 }

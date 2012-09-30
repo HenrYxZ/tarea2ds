@@ -6,18 +6,34 @@
 #include "abb.h" // inheriting class's header file
 #include "node.h"
 #include "includes.h"
+#include <string>
+#include <iostream>
 
 /*
  * No description
  */
+ 
+ using namespace std;
+ 
 class AVLABB : public ABB
 {
+    private:
+            Node* _root;
 	public:
 		// class constructor
 		AVLABB();
 		// class destructor
 		~AVLABB();
-		
+	   
+        void insert(string k,int v);
+	    void remove(string k);
+        int find(string k); //retorna value
+        void simpleRot(Node* n);
+        void balance(Node* n);
+        void doubleRot(Node* n);
+        void whileChangeHigh(Node* from);
+        
+        
 	    
 };
 
