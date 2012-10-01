@@ -22,7 +22,7 @@ int RedBlackTree::find(string k){
 			break;
 
         int comparison=cmp(actual->getKey(),k);
-		if(comparison = 0)
+		if(comparison == 0)
 			return actual->getValue();
 
 		else if(comparison > 0)
@@ -39,6 +39,7 @@ void RedBlackTree::insert(string k, int v){
      if(_root == NULL)
 			{
 				_root = new Node(k,v);
+				_root->setisRed(false);
 			}
 
 			else
@@ -58,6 +59,7 @@ void RedBlackTree::insert(string k, int v){
 							nuevo->setFather(actual);
 							actual->setLeft(nuevo);
                             //no se si debería ser balance nuevo o actual
+                            if( actual->isRed() )
 							balance(nuevo);
 							continua = false;
 							break;
@@ -75,7 +77,7 @@ void RedBlackTree::insert(string k, int v){
 							Node* nuevo = new Node(k,v);
 							nuevo->setFather(actual);
 							actual->setRight(nuevo);
-
+                            if( actual->isRed() )
 							balance(nuevo);
 							continua = false;
 							break;
@@ -127,6 +129,7 @@ void RedBlackTree::simpleRot(Node* n){
         granpa->setFather(father);
         
         granpa->setLeft(brother);
+        if(brother != NULL)
         brother->setFather(granpa);
         
      }
@@ -137,9 +140,13 @@ void RedBlackTree::simpleRot(Node* n){
          granpa->setFather(father);
          
          granpa->setRight(brother);
+         if(brother != NULL)
          brother->setFather(granpa);
      
      }
+     
+     if(granpa == _root)
+       _root = father;
      father = NULL;
      brother = NULL;
      granpa = NULL;
@@ -189,8 +196,6 @@ void RedBlackTree::balance(Node* n){
      Node* uncle = father->getBrother();         //tío (puede ser NULL)
      
      //hijo rojo con padre rojo con sus 3 casos seguiran a continuación
-     if( !(father->isRed() && n->isRed() ) )
-      return;
      
      //tio rojo
      if( uncle!=NULL && uncle->isRed() )
@@ -199,15 +204,15 @@ void RedBlackTree::balance(Node* n){
         granpa->recolor();
         father->recolor();  
      }
-     //rotación simple
+     //rotación simple      - luego se encarga de los casos simétricos
      else if( (granpa->getLeft() == father && father->getLeft() == n ) || ( granpa->getRight() == father && father->getRight() == n ) )
      {
           father->recolor();
           granpa->recolor();
-          simpleRot(n);
+          simpleRot(n);     
      }
      
-     //rotación doble
+     //rotación doble       - luego se encarga de los casos simétricos
      else
      {
          doubleRot(n);

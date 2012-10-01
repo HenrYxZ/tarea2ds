@@ -3,12 +3,15 @@
 #ifndef REDBLACKTREE_H
 #define REDBLACKTREE_H
 
-#include "abb.h" // inheriting class's header file
 #include "node.h"
 #include "includes.h"
+#include <string>
+#include "abb.h" // inheriting class's header file
+
 /*
  * No description
  */
+ using namespace std;
  class RedBlackTree : public ABB
 {
         

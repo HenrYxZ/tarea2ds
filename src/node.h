@@ -14,7 +14,7 @@ class Node
     private:
             bool _isRed;
             Node * _father, * _left, * _right;
-            int _value;
+            int _value, _high;
             string _key;  
       
 	public:
@@ -22,16 +22,22 @@ class Node
 		Node(string key, int value);
 		// class destructor
 		~Node();
-		//geters
+        
+        //geters
 		Node* getLeft();
 		Node* getRight();
 		Node* getFather();
 		Node* getBrother();
+		
+		Node* inOrder();
+		Node* maxLeft(Node* n);   //devuelve el nodo más a la izquierda
         
 		int getValue();
 		string getKey();
 		bool isRed();
+		int getHigh();
 		
+        //seters
 		void setValue(int v);
 		void setKey(string k);
 		void setLeft(Node* lnode);
@@ -39,6 +45,7 @@ class Node
 		void setFather(Node* fnode);
 		void setisRed(bool is);
 		void recolor();
+		void setHigh(int h);
 		
 		
 		

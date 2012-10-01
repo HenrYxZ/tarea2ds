@@ -2,13 +2,17 @@
 #include <iostream>
 #include <string>
 #include "includes.h" //---> en este archivo se declaran las cabeceras de las funnciones externas
-#include "treap.h"
+#include "redblacktree.h"
+#include "avlabb.h"
+
+
 using namespace std;
 
 int main(int argc, char *argv[])
 {
     srand ( time(NULL) );//se inicializa la semilla de funcion rand()
     
+
 
     Treap t= Treap();
     
@@ -37,7 +41,14 @@ int main(int argc, char *argv[])
     cout<<t.find("c")<<endl;
     //cout<<t.find("d")<<endl;
     */
+
+    
+   ABB* t = new AVLABB();
+    
+    //cout << i << endl;
+
     //t.sortedDump();
+    delete t;
     system("PAUSE");
     return EXIT_SUCCESS;
 }

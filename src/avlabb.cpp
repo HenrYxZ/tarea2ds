@@ -2,10 +2,11 @@
 
 #include "avlabb.h" // class's header file
 
+
 // class constructor
 AVLABB::AVLABB()
 {
-	// insert your code here
+	_root = NULL;
 }
 
 // class destructor
@@ -14,6 +15,323 @@ AVLABB::~AVLABB()
 	// insert your code here
 }
 
+int AVLABB::find(string k){
+    //si no encuentra devuelve -1
+    if(_root == NULL)
+		return -1;
+	Node* actual = _root;
+
+	while(true)
+	{	// Binary Searcher
+		if(actual == NULL)
+			break;
+
+        int comparison=cmp(actual->getKey(),k);
+		if(comparison == 0)
+			return actual->getValue();
+
+		else if(comparison > 0)
+			actual = actual->getLeft();
+
+		else
+			actual = actual->getRight();
+	}
+
+	return -1;      
+}    
+
+void AVLABB::whileChangeHigh(Node* from)
+{
+	//obtain the brother to know if he is higher if so I don't affect the father
+	Node* brother = from->getBrother();
+
+	if(brother != NULL && from->getHigh() <= brother->getHigh() )
+		return;
+    Node* actual = from;
+    int newHigh;
+	while(actual != _root)
+	{
+                 //incrementa en uno la altura del padre
+            actual = actual->getFather();
+			newHigh = actual->getHigh() + 1;
+			actual->setHigh(newHigh);
+			
+	}	
+	
+}
+
+void AVLABB::insert(string k, int v){
+     if(_root == NULL)
+			{
+				_root = new Node(k,v);
+			}
+
+			else
+			{
+				Node* actual = _root;
+                bool continua = true;
+				while(continua)
+				{
+                    int comparison=cmp(actual->getKey(),k);
+					if(comparison >= 0)
+					{
+						// ----------------	LEFT case ------------------------------
+
+                        /*supongo que en un inicio todo está ordenado, 
+                        ahora solo podría desordenarlo con el nuevo nodo*/
+                        
+						if(actual->getLeft() == NULL)
+						{	//había espacio
+							Node* nuevo = new Node(k,v);
+							nuevo->setFather(actual);
+							actual->setLeft(nuevo);
+							if(actual->getRight() == NULL)
+                            {
+                              whileChangeHigh(nuevo);
+                              if(actual != _root && actual->getBrother()== NULL)            //si el tío es NULL podría existir diferencia de alturas
+							  balance(nuevo);
+                            }  
+							continua = false;
+							break;
+						}
+						else
+							actual = actual->getLeft();
+					}
+
+					else
+					{
+						// -------------------- RIGHT case -------------------------
+
+						if(actual->getRight() == NULL)
+						{
+							Node* nuevo = new Node(k,v);
+							nuevo->setFather(actual);
+							actual->setRight(nuevo);
+							if(actual->getLeft() == NULL)
+							{
+                               whileChangeHigh(nuevo);
+                               if(actual != _root && actual->getBrother() == NULL)      //si el tío es NULL podría existir diferencia de alturas
+							   balance(nuevo);
+                            }
+							continua = false;
+							break;
+						}
+
+						else
+							actual = actual->getRight();
+
+					}
 
 
+				}//end of while(continua)
+
+			}//end of else [case tree is not empty]
+}//end of insert
+
+void AVLABB::simpleRot(Node* n){
+     
+     Node* father = n->getFather();    
+     Node* granpa = father->getFather();     //abuelo (puede ser NULL)
+     Node* brother = n->getBrother();            //hermano (puede ser null)
+     
+     //cambiemos al padre de "padre" por el bisabuelo, a su vez si padre debe ser un hijo izquiero o derecho
+      
+     father->setFather( granpa->getFather() );      //setea a bisabuelo como padre de "padre"
+     
+     if(granpa->getFather() != NULL)                //setea a "padre" como hijo de bisabuelo
+     {
+        
+       if(granpa->getFather()->getLeft() == granpa)
+         
+            granpa->getFather()->setLeft(father);  //setea a padre como hijo izquierdo 
+       
+       else
+       
+           granpa->getFather()->setRight(father);  //setea a padre como hijo izquierdo
+          
+     }
+     
+     if(father->getLeft() == n)         //el nuevo es un hijo izq
+     {
+        
+        father->setRight(granpa);
+        granpa->setFather(father);
+        
+        granpa->setLeft(brother);
+        if(brother != NULL)
+        brother->setFather(granpa);
+        
+     }
+     
+     else                          //el nuevo es un hijo der
+     {
+         father->setLeft(granpa);
+         granpa->setFather(father);
+         
+         
+         granpa->setRight(brother);
+         if(brother!=NULL)
+         brother->setFather(granpa);
+         
+     }
+     if(granpa == _root)
+       _root = father;
+     father = NULL;
+     brother = NULL;
+     granpa = NULL;
+    
+      
+              
+}// fin de simpleRot
+
+void AVLABB::doubleRot(Node* n){
+     
+     Node* father = n->getFather(); 
+     
+     if(father->getLeft() == n)     //el "hijo" es un hijo izq
+     {
+        father->setLeft( n->getRight() );
+        if(n->getRight() != NULL)
+        n->getRight()->setFather( father );
+        
+        father->setFather( n );
+        n->setRight( father );
+     }
+     
+     else                           //el "hijo" es un hijo der
+     {
+         father->setRight( n->getLeft() );
+         if( n->getLeft() != NULL )
+         n->getLeft()->setFather( father );
+         
+         father->setFather( n );
+         n->setLeft( father );
+     }
+     //distinto del RB
+     simpleRot(father);
+     father = NULL;
+}     
+
+
+void AVLABB::balance(Node* n){
+     
+     //por si a caso nada más
+     if(n == _root)
+     {
+       return;
+     }
+     
+     Node* father = n->getFather();    
+     Node* granpa = father->getFather();     //abuelo (también puede ser NULL)
+     Node* uncle = father->getBrother();         //tío (puede ser NULL)
+    
+     //distinto de RedBlack
+     Node* brother = n->getBrother();
+     
+     //alturas de los nodos importantes
+     int hn = n->getHigh();
+     int hfather = father->getHigh();
+     int hgranpa = granpa->getHigh();
+     
+     int huncle;
+     if(uncle == NULL)
+     huncle = 0;
+     else
+     huncle = uncle->getHigh();
+     
+     if( (huncle-hfather)^2 == 4) // si hay diferencias de alturas
+     {
+         //rotación simple      - izq izq o der der
+         if( (granpa->getLeft() == father && father->getLeft() == n ) || ( granpa->getRight() == father && father->getRight() == n ) )
+         {
+              granpa->setHigh(hn);
+              
+              simpleRot(n);
+         }
+         
+         //rotación doble
+         else
+         {
+             //cambios de altura
+             father->setHigh(hn);
+             n->setHigh(hfather);
+             granpa->setHigh(hn);
+             
+             doubleRot(n);
+         }
+     }//end if =4
+     father = NULL;
+     granpa = NULL;
+     uncle = NULL;
+     brother = NULL;
+     
+}//end of balance                    
+
+void AVLABB::remove(string k){
+     if(_root == NULL)
+       return ;
+              
+                Node* actual = _root;
+                bool continua = true;
+				while(continua)
+				{
+                    if(actual == NULL)
+                    return;         
                     
+                    
+                    
+                    //              ------------ BINARY SEARCH
+                    int comparison=cmp(actual->getKey(),k);
+                    if(comparison == 0)
+                    {             //encontré al que debo eliminar
+                                  
+                                  if(actual == _root)
+                                  {
+                                     delete _root;
+                                     _root = NULL;
+                                  }
+                                  
+                                  
+                                  Node* inOrder = actual->inOrder();
+                                  
+                                  //si es hoja, se borra todo rastro
+                                  if(inOrder == NULL)
+                                  {
+                                             if( actual->getFather()->getLeft() == actual )
+                                                actual->getFather()->setLeft(NULL);
+                                             else
+                                                actual->getFather()->setRight(NULL);
+                                             delete actual;
+                                             actual = NULL;   
+                                  }
+                                  
+                                  //copio los valores del inOrder en el que "borro"
+                                  actual->setValue( inOrder->getValue() );
+                                  actual->setKey( inOrder->getKey() );
+                                  
+                                  //elimino el inOrder
+                                  if(inOrder == NULL)
+                                  this->remove(inOrder->getKey() );
+                                  
+                                  
+                                  
+                    }
+					else if(comparison > 0)
+					{
+						// ----------------	GO LEFT ------------------------------
+
+							actual = actual->getLeft();
+					}
+
+					else
+					{
+						// -------------------- GO RIGHT -------------------------
+
+						
+							actual = actual->getRight();
+
+					}
+
+
+				}//end of while(continua)
+}

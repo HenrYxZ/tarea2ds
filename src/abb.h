@@ -14,8 +14,7 @@ class ABB
 	virtual void insert(string k,int v) = 0;
 	virtual void remove(string k) = 0;
 	virtual int find(string k) = 0; //retorna value
-	virtual int min() = 0;
-	virtual int max() = 0;
+
 };
 
 #endif // ABB_H
