@@ -6,6 +6,7 @@
 #include "includes.h" //---> en este archivo se declaran las cabeceras de las funnciones externas
 #include "redblacktree.h"
 #include "avlabb.h"
+#include "abb.h"
 
 
 using namespace std;
@@ -21,7 +22,6 @@ int main(int argc, char *argv[])
 {
     srand ( time(NULL) );//se inicializa la semilla de funcion rand()
     
-<<<<<<< HEAD
     /*
    ABB* t = new AVLABB();
 =======
@@ -30,7 +30,6 @@ int main(int argc, char *argv[])
     Treap t= Treap();
     
     //cout<<"a insertado"<<endl;
->>>>>>> e01d3262a8325805e72fb3c87782c9f35dc308a0
     
     //t.insert("b",2);
     
@@ -55,15 +54,6 @@ int main(int argc, char *argv[])
     cout<<t.find("c")<<endl;
     //cout<<t.find("d")<<endl;
     */
-
-    
-   ABB* t = new AVLABB();
-    
-    //cout << i << endl;
-
-    //t.sortedDump();
-    delete t;
-    */
     
     
     
@@ -79,9 +69,9 @@ int main(int argc, char *argv[])
            //programa A
            cout << "Ingrese archivo de entrada" << endl;
            string dir;  
-           cout << "Ingrese ruta del archivo: " << endl;
            cin >>  dir;
            
+           cout << "Ingrese ruta del archivo: " << endl;
            string salida;
            cin >> salida;
         
@@ -95,9 +85,9 @@ int main(int argc, char *argv[])
            ofstream fileout( d );
            string str;
            
-           ABB* rb = RedBlackTree();
-           ABB* avl = AVLABB();
-           ABB* t = Treap();
+           ABB* rb = new RedBlackTree();
+           ABB* avl = new AVLABB();
+          
            
            //Empieza a leer
         while( getline( file, str ) )
@@ -116,22 +106,23 @@ int main(int argc, char *argv[])
             {
                       rb->insert(clave,0);
                       avl->insert(clave,0);
-                      //aqui cambialo seba
-                      t->insert(clave,0);
+                      //aqui cambialo seba, le pones la prioridad
+                      
             }
             
             if(accion == "delete")
             {
                       rb->remove(clave);
                       avl->remove(clave);
-                      t->remove(clave);
+                      
             }
         
         } //fin de while        
         
         //imprimir los arboles
         
-        
+        delete rb;
+        delete avl;
         
       system("PAUSE");
       }//fin de opcion 1

@@ -32,7 +32,7 @@ class AVLABB : public ABB
         void balance(Node* n);
         void doubleRot(Node* n);
         void whileChangeHigh(Node* from);
-        
+        void whileDecreaseHigh(Node* from);
         
 	    
 };

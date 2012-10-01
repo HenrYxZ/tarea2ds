@@ -49,14 +49,35 @@ void AVLABB::whileChangeHigh(Node* from)
 		return;
     Node* actual = from;
     int newHigh;
-	while(actual != _root)
-	{
+	if(actual == _root)
+	
                  //incrementa en uno la altura del padre
             actual = actual->getFather();
 			newHigh = actual->getHigh() + 1;
 			actual->setHigh(newHigh);
-			
-	}	
+			whileChangeHigh(actual);
+	
+	
+}
+
+void AVLABB::whileDecreaseHigh(Node* from)
+{
+	//obtain the brother to know if he is higher if so I don't affect the father
+	Node* brother = from->getBrother();
+
+	if(brother != NULL && from->getHigh() <= brother->getHigh() )
+		return;
+    Node* actual = from;
+    int newHigh;
+	if(actual == _root)
+	return;
+	
+                 //incrementa en uno la altura del padre
+            actual = actual->getFather();
+			newHigh = actual->getHigh() - 1;
+			actual->setHigh(newHigh);
+			whileDecreaseHigh(actual);
+		
 	
 }
 
@@ -275,6 +296,7 @@ void AVLABB::remove(string k){
                 bool continua = true;
 				while(continua)
 				{
+                               //caso en que nunca se encuentra
                     if(actual == NULL)
                     return;         
                     
@@ -285,11 +307,6 @@ void AVLABB::remove(string k){
                     if(comparison == 0)
                     {             //encontré al que debo eliminar
                                   
-                                  if(actual == _root)
-                                  {
-                                     delete _root;
-                                     _root = NULL;
-                                  }
                                   
                                   
                                   Node* inOrder = actual->inOrder();
@@ -297,12 +314,16 @@ void AVLABB::remove(string k){
                                   //si es hoja, se borra todo rastro
                                   if(inOrder == NULL)
                                   {
-                                             if( actual->getFather()->getLeft() == actual )
+                                             this->whileDecreaseHigh(actual);
+                                             
+                                             if( actual->getFather() != NULL &&  actual->getFather()->getLeft() == actual )
                                                 actual->getFather()->setLeft(NULL);
-                                             else
+                                             if(  actual->getFather() != NULL &&  actual->getFather()->getLeft() == actual )
                                                 actual->getFather()->setRight(NULL);
+                                                
                                              delete actual;
-                                             actual = NULL;   
+                                             actual = NULL;
+                                             return;   
                                   }
                                   
                                   //copio los valores del inOrder en el que "borro"
@@ -310,7 +331,7 @@ void AVLABB::remove(string k){
                                   actual->setKey( inOrder->getKey() );
                                   
                                   //elimino el inOrder
-                                  if(inOrder == NULL)
+                                  if(inOrder != NULL)
                                   this->remove(inOrder->getKey() );
                                   
                                   
