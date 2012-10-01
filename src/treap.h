@@ -15,6 +15,8 @@ class Treap : public ABB
         tNode* rotLeft(tNode* subRoot);
         tNode* rotRight(tNode* subRoot);
         tNode* findNode(string k);
+        void inorderPrint(tNode* currentNode);
+        tNode* insertNode(tNode* root,string k, int v, int p);
         
 	public:
 		// class constructor

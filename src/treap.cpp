@@ -7,7 +7,9 @@
 // class constructor
 Treap::Treap()
 {
-	_root=new tNode();
+	_root=new tNode(0);
+	//_root->setFather(_root);
+    //_root.setFather();
 }
 
 // class destructor
@@ -16,61 +18,67 @@ Treap::~Treap()
 	// insert your code here
 }
 
+tNode* Treap::insertNode(tNode* nodo,string k,int v,int p)
+{
+
+if(nodo->isDummy())//es dummy
+	{
+	nodo->unDummy(k,v,p);
+	}
+else{
+	int comparison=cmp(k,nodo->getKey());
+
+	if(comparison==0)
+		{
+            cout<<"cambia valor"<<endl;
+		nodo->setValue(v);
+		//cambia valor;
+		}	
+	else if(comparison==-1)
+		{
+        cout<<"Bajo a la IZQUIERDA"<<endl;
+		nodo->setLeft(insertNode(nodo->Left(),k,v,p));
+		if(nodo->Left()->getPriority() < nodo->getPriority())
+		{
+		cout<<"* ROT RIGHT: "<<nodo->getKey()<<endl;
+        nodo=rotRight(nodo);
+		
+		//rotacion derecha del nodo
+		}
+        }
+	else if (comparison==1)//k> nodo->getKey()
+		{
+        cout<<"Bajo a la DERECHA"<<endl;
+		nodo->setRight(insertNode(nodo->Right(),k,v,p));              
+		if (nodo->Right()->getPriority() < nodo->getPriority()) 
+		{
+        cout<<"* ROT LEFT :"<<nodo->getKey()<<endl;
+        nodo=rotLeft(nodo);
+		
+		//		t=lrot(t);  ROTACION IZQUIERDA          
+		}
+        }
+}
+cout<<"aux nodo: ("<<nodo->getKey()<<","<<nodo->getValue()<<","<<nodo->getPriority()<<")"<<endl;
+cout<<"LEFT:"<<nodo->Left()->getKey()<<" RIGHT:"<<nodo->Right()->getKey()<<endl;
+cout<<endl;
+return nodo;
+}
+
 void Treap::insert(string k, int v)
 {
 
-int priority=randomP();    
-if (_root->isDummy())
-{
-    _root->unDummy(k,v,priority);
-    return;
-}
+    int p=randomP();/*
+    if(findNode(k)!=0)
+    {
+        findNode(k)->setValue(v);
+        return;
+    }*/
+    
+    insertNode(_root,k, v, p);
+    cout<<"[Insertado]: ---> ("<<k<<","<<v<<","<<p<<")"<<endl;
+    cout<<endl<<"------------------"<<endl;
 
-tNode* aux=_root;
-tNode* auxFather=0;
-bool lastLeft=true;
-while(!aux->isDummy())
-{
-    int comparison=cmp(aux->getKey(),k);
-    
-    //si es 0 son iguales -> encontramos str
-    
-    if(comparison>=0)//me voy a la izquierda
-    {
-        auxFather=aux;
-        aux=aux->Left();
-        lastLeft=true;
-               
-    }
-    
-    else//me voy a la derecha
-    {
-        auxFather=aux;
-        aux=aux->Right();
-        lastLeft=false;
-    }
-}
-    aux->unDummy(k,v,priority);
-    
-        int rootPty=auxFather->getPriority();
-        int sonPty=aux->getPriority();
-        
-        if(lastLeft){ 
-            
-        if(sonPty>rootPty)
-        {
-            rotRight(auxFather);
-        }
-        }
-        else{
-        
-        if(sonPty>rootPty)
-        {
-            rotLeft(auxFather);
-        }
-        
-        }
-    return;
 }
 
 void Treap::remove(string k)
@@ -128,37 +136,43 @@ tNode* Treap::findNode(string str)
 
 if (_root->isDummy())
 {
-    return _root;
+    return 0;
 }
 tNode* aux=_root;
 while(!aux->isDummy())
 {
-    if(aux->isDummy())
-    {
-        return 0;//clave no encontrada
-    }
-    int comparison=cmp(aux->getKey(),str);
+    //cout<<"DUMMY->"<<aux->isDummy()<<endl;
     
+    int comparison=cmp(aux->getKey(),str);
+    //cout<<"cmpcion"<<comparison<<endl;
     //si es 0 son iguales -> encontramos str
     
     if(comparison==0)
     {
+        //cout<<"encontrado k:"<<aux->getKey()<<endl;
         return aux;
+        
     }
     else if(comparison==1)//si es 1 busco str a la izquierda
     {
-        
+        //cout<<"IZQ"<<endl;
         aux=aux->Left();
     }
     
-    else if(comparison==-1)//si es -1 busco str a la izquierda
+    else if(comparison==-1)//si es -1 busco str a la dercha
     {
+        //cout<<"DER"<<endl;
         aux=aux->Right();
     }
     
     
 }
-   
+ if(aux->isDummy())
+    {
+        //cout<<"NO ESTA"<<endl;
+        return 0;//clave no encontrada
+       
+    }  
 }
 
 int Treap::find(string str)
@@ -228,52 +242,64 @@ void Treap::prettyPrint ( )
 
 void Treap::sortedDump ( )
 {
-    tNode* aux = _root;
-	
-	
 
-    stack<tNode*> sNodes;
-	
+    inorderPrint(_root);
+    
+}
 
-    while ( !aux->isDummy() || sNodes.empty() )
+void Treap::inorderPrint(tNode* currentNode)
+{
+    if(!currentNode->isDummy())
     {
-        while (!aux->isDummy()) {
-            sNodes.push (aux);       
-			aux = aux->Left();		
-        }
-        aux = sNodes.top();
-		sNodes.pop();
-		
-		cout<<aux->getKey()<<" "<<aux->getValue()<<endl;
-
-        aux = aux->Right();
-		
-		
+        cout<<"Rec: "<<currentNode->getKey()<<" P: "<<currentNode->getPriority()<<endl;
+        cout<<"Left:"<<currentNode->Left()->getKey()<<" Right:"<<currentNode->Right()->getKey()<<endl;
+    }
+    if (!currentNode->isDummy()) {
+       inorderPrint(currentNode->Left());
+       cout << currentNode->getKey()<<" "<<currentNode->getValue()<<endl;
+       inorderPrint(currentNode->Right());
     }
 }
 
 tNode* Treap::rotLeft(tNode* subRoot) //rota a la izquierda y retorna nueva subraíz
 {
+    
+    
     tNode* p=subRoot;
-    tNode* q=p->Left();
+    tNode* q=p->Right();
     tNode* a=p->Left();
     tNode* b=q->Left();
     tNode* c=q->Right();
-    
+    //p->setFather(q);
     q->setLeft(p);
+    //b->setFather(p);
     p->setRight(b);
     return q;
+    
+ 
+
 }
 
-tNode* Treap::rotRight(tNode* subRoot) //rota a la izquierda y retorna nueva subraíz
+tNode* Treap::rotRight(tNode* t) //rota a la izquierda y retorna nueva subraíz
 {
-    tNode* q=subRoot;
-    tNode* p=q->Left();
-    tNode* a=p->Left();
-    tNode* b=p->Right();
-    tNode* c=q->Right();
     
+    tNode *q, *p, *a, *b, *c;
+
+    q=t;
+    p=q->Left();
+    a=p->Left();
+    b=p->Right();
+    c=q->Right();
+
+    //q->setFather(p);
     p->setRight(q);
-    q->setLeft(b);
-    return p;
+
+    //b->setFather(q);
+    q->setLeft(p->Right());
+
+
+    cout<<"* root:"<<p->getKey()<<" left:"<<p->Left()->getKey()<<" right:"<<p->Right()->getKey()<<endl;
+    return p;               
+    
+    
 }

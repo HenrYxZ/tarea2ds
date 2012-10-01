@@ -12,9 +12,9 @@ tNode::tNode(string key,int value,int priority): _key(key),_value(value),_dummy(
 {
     
 }
-tNode::tNode(): _key(""),_value(-1),_dummy(true),_priority(101)
+tNode::tNode(tNode* father): _father(father),_key(""),_value(-1),_dummy(true),_priority(101)
 {
-    
+    _dummy=true;
 }
 tNode& tNode::operator= (const tNode &tNodeSource)
 {
@@ -40,9 +40,12 @@ void tNode::unDummy(string k,int v, int p)
     _value=v;
     _priority=p;
     _dummy=false;
-    tNode* dummyLeft=new tNode();
-    tNode* dummyRight=new tNode();
-
+    tNode* dummyLeft=new tNode(this);
+    tNode* dummyRight=new tNode(this);
+    dummyLeft->setFather(this);
+    dummyRight->setFather(this);
+    dummyLeft->setDummy();
+    dummyRight->setDummy();
     _left=dummyLeft;
     _right=dummyRight;
     
@@ -77,6 +80,11 @@ void tNode::setDummy()
     _right=0;
     return;
 }
+void tNode::setValue(int v)
+{
+    _value=v;
+}
+
 bool tNode::isDummy()
 {
     return _dummy;
@@ -90,5 +98,14 @@ void tNode::setLeft(tNode* lNode)
 void tNode::setRight(tNode* rNode)
 {
     _dummy=false;
-    _left=rNode;
+    _right=rNode;
+}
+void tNode::setFather(tNode* f)
+{
+    _father=f;
+}
+
+tNode* tNode::Father()
+{
+    return _father;
 }
