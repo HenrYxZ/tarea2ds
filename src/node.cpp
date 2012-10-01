@@ -8,13 +8,12 @@ Node::Node(string key, int value){
       _father = NULL;
       _left = NULL;
       _right = NULL;
-      _isRed = false;
+      _isRed = true;
       _high = 1;                  
 }
-
 Node::~Node(){
-              
-}
+      
+}        
 
 Node* Node::getBrother(){
       if(_father == NULL)
@@ -39,6 +38,23 @@ Node* Node::getLeft(){
 
 Node* Node::getRight(){
       return _right;
+}
+
+Node* Node::inOrder(){
+      
+      //si el nodo derecho es nulo devuelve el izq (puede ser NULL)
+      if(_right == NULL)
+       return _left;
+       
+       //devuelve el nodo más a la izquierda del subarbol derecho
+      return maxLeft(_right);
+}
+
+Node* Node::maxLeft(Node* n){
+      if(n->getLeft() == NULL)
+        return n;
+      else
+        return maxLeft(n);
 }
 
 int Node::getValue(){

@@ -268,5 +268,70 @@ void AVLABB::balance(Node* n){
 }//end of balance                    
 
 void AVLABB::remove(string k){
-     // por definir
+     if(_root == NULL)
+       return ;
+              
+                Node* actual = _root;
+                bool continua = true;
+				while(continua)
+				{
+                    if(actual == NULL)
+                    return;         
+                    
+                    
+                    
+                    //              ------------ BINARY SEARCH
+                    int comparison=cmp(actual->getKey(),k);
+                    if(comparison == 0)
+                    {             //encontré al que debo eliminar
+                                  
+                                  if(actual == _root)
+                                  {
+                                     delete _root;
+                                     _root = NULL;
+                                  }
+                                  
+                                  
+                                  Node* inOrder = actual->inOrder();
+                                  
+                                  //si es hoja, se borra todo rastro
+                                  if(inOrder == NULL)
+                                  {
+                                             if( actual->getFather()->getLeft() == actual )
+                                                actual->getFather()->setLeft(NULL);
+                                             else
+                                                actual->getFather()->setRight(NULL);
+                                             delete actual;
+                                             actual = NULL;   
+                                  }
+                                  
+                                  //copio los valores del inOrder en el que "borro"
+                                  actual->setValue( inOrder->getValue() );
+                                  actual->setKey( inOrder->getKey() );
+                                  
+                                  //elimino el inOrder
+                                  if(inOrder == NULL)
+                                  this->remove(inOrder->getKey() );
+                                  
+                                  
+                                  
+                    }
+					else if(comparison > 0)
+					{
+						// ----------------	GO LEFT ------------------------------
+
+							actual = actual->getLeft();
+					}
+
+					else
+					{
+						// -------------------- GO RIGHT -------------------------
+
+						
+							actual = actual->getRight();
+
+					}
+
+
+				}//end of while(continua)
 }
