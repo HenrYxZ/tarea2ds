@@ -13,6 +13,7 @@ private:
 	string _key;
 	tNode* _left;
 	tNode* _right;
+	tNode* _father;
 	int _priority;
 	bool _dummy;
 
@@ -20,7 +21,7 @@ public:
 	// class constructor
 	tNode(string key,int value);
 	tNode(string key,int value,int priority);
-	tNode();
+	tNode(tNode* father);
 	tNode& operator= (const tNode &tNodeSource);
 	// class destructor
 	~tNode();
@@ -33,11 +34,14 @@ public:
 	string getKey();
 	tNode* Left();
 	tNode* Right();
-
+    tNode* Father();
+    
+    void setValue(int v);
 	void setDummy();	
 	void setLeft(tNode* lNode);
 	void setRight(tNode* rNode);
 	void unDummy(string k,int v, int p);
+	void setFather(tNode* f);
 	
 
 };
